@@ -1,7 +1,7 @@
 import { assertEquals } from "jsr:@std/assert";
 import { A1Notation } from "./mod.ts";
 
-interface TestCase {
+interface ParseTestCase {
     input: string;
     output: {
         sheetName?: string;
@@ -12,7 +12,7 @@ interface TestCase {
     };
 }
 
-const testCases: TestCase[] = [
+const parseTestCases: ParseTestCase[] = [
     // test cases from https://developers.google.com/sheets/api/guides/concepts
     {
         input: "Sheet1!A1:B2",
@@ -118,7 +118,7 @@ const testCases: TestCase[] = [
     },
 ];
 
-for (const { input, output } of testCases) {
+for (const { input, output } of parseTestCases) {
     Deno.test(`A1Notation.parse(${input})`, () => {
         const a1 = A1Notation.parse(input);
         assertEquals(a1.sheetName, output.sheetName, "sheet name");
@@ -126,5 +126,138 @@ for (const { input, output } of testCases) {
         assertEquals(a1.bottom, output.bottom, "bottom");
         assertEquals(a1.left, output.left, "left");
         assertEquals(a1.right, output.right, "right");
+    });
+}
+
+interface ToStringTestCase {
+    input: {
+        sheetName?: string;
+        top?: number;
+        bottom?: number;
+        left?: number;
+        right?: number;
+    };
+    output: string;
+}
+
+const toStringTestCases: ToStringTestCase[] = [
+    {
+        input: {
+            sheetName: "Sheet1",
+            top: 1,
+            bottom: 2,
+            left: 1,
+            right: 2,
+        },
+        output: "Sheet1!A1:B2",
+    },
+    {
+        input: {
+            sheetName: "Sheet1",
+            left: 1,
+            right: 1,
+        },
+        output: "Sheet1!A:A",
+    },
+    {
+        input: {
+            sheetName: "Sheet1",
+            top: 1,
+            bottom: 2,
+        },
+        output: "Sheet1!1:2",
+    },
+    {
+        input: {
+            sheetName: "Sheet1",
+            top: 5,
+            left: 1,
+            right: 1,
+        },
+        output: "Sheet1!A5:A",
+    },
+    {
+        input: {
+            top: 1,
+            bottom: 2,
+            left: 1,
+            right: 2,
+        },
+        output: "A1:B2",
+    },
+    {
+        input: {
+            sheetName: "Sheet1",
+        },
+        output: "Sheet1",
+    },
+    {
+        input: {
+            sheetName: "My Custom Sheet",
+            left: 1,
+            right: 1,
+        },
+        output: "'My Custom Sheet'!A:A",
+    },
+    {
+        input: {
+            sheetName: "My Custom Sheet",
+        },
+        output: "'My Custom Sheet'",
+    },
+    {
+        input: {
+            top: 1,
+            left: 1,
+            bottom: 1,
+            right: 1,
+        },
+        output: "A1",
+    },
+    {
+        input: {
+            top: 1,
+            left: 1,
+        },
+        output: "A1",
+    },
+    {
+        input: {
+            sheetName: "A1",
+        },
+        output: "'A1'",
+    },
+    {
+        input: {
+            top: 1,
+            left: 18278,
+            bottom: 1,
+            right: 18278,
+        },
+        output: "ZZZ1",
+    },
+    {
+        input: {
+            sheetName: "AAAA1",
+        },
+        output: "AAAA1",
+    },
+    {
+        input: {
+            sheetName: "A",
+        },
+        output: "A",
+    },
+];
+
+for (const { input, output } of toStringTestCases) {
+    Deno.test(`A1Notation.toString(${JSON.stringify(input)})`, () => {
+        const a1 = new A1Notation();
+        a1.sheetName = input.sheetName;
+        a1.top = input.top;
+        a1.bottom = input.bottom;
+        a1.left = input.left;
+        a1.right = input.right;
+        assertEquals(`${a1}`, output);
     });
 }

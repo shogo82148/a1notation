@@ -17,8 +17,8 @@ export class A1Notation {
     this.sheetName = sheetName;
     this.top = top;
     this.bottom = bottom;
-    this.left = left;
-    this.right = right;
+    this.left = left || top;
+    this.right = right || left;
   }
 
   static parse(s: string): A1Notation {
@@ -57,23 +57,32 @@ export class A1Notation {
     if (this.bottom) {
       cell2 += this.bottom.toString();
     }
-    if (this.sheetName && cell1 && cell2) {
-      return `${escapeSheetName(this.sheetName)}!${cell1}:${cell2}`;
-    }
-    if (this.sheetName && cell1) {
-      return `${escapeSheetName(this.sheetName)}!${cell1}`;
+
+    let cell = "";
+    if (this.left && this.right && this.top && this.bottom) {
+      if (this.left === this.right && this.top === this.bottom) {
+        cell = cell1;
+      } else {
+        cell = cell1 + ":" + cell2;
+      }
+    } else if (cell1 && cell2) {
+      cell = cell1 + ":" + cell2;
+    } else {
+      cell = cell1;
     }
     if (this.sheetName) {
-      return escapeSheetName(this.sheetName);
+      if (cell) {
+        return escapeSheetName(this.sheetName) + "!" + cell;
+      } else {
+        return escapeSheetName(this.sheetName);
+      }
     }
-    if (cell1 && cell2) {
-      return `${cell1}:${cell2}`;
-    }
-    return cell1;
+    return cell;
   }
 }
 
 const EOF = "EOF";
+const reCell = /^([a-z]{0,3})([0-9]+)$/i;
 
 interface InterimResult {
   sheetName?: string;
@@ -133,7 +142,7 @@ class Parser {
       const name = this.parseName(); // name is a sheet name or cell name
       const ch = this.peek();
       if (ch === EOF) {
-        if (name.match(/^([a-z]{0,3})([0-9]+)$/i)) {
+        if (reCell.test(name)) {
           // it is `A1`
           return { cell1: name, cell2: name };
         } else {
@@ -277,6 +286,9 @@ function toBase26(num: number): string {
 }
 
 function escapeSheetName(s: string): string {
+  if (reCell.test(s)) {
+    return `'${s}'`;
+  }
   if (/^[a-z0-9]+$/i.test(s)) {
     return s;
   }
