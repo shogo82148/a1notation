@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert";
+import { assertEquals, assertThrows } from "jsr:@std/assert";
 import { A1Notation } from "./mod.ts";
 
 interface ParseTestCase {
@@ -116,6 +116,15 @@ const parseTestCases: ParseTestCase[] = [
             sheetName: "A",
         },
     },
+    {
+        input: "a1",
+        output: {
+            top: 1,
+            left: 1,
+            bottom: 1,
+            right: 1,
+        },
+    },
 ];
 
 for (const { input, output } of parseTestCases) {
@@ -126,6 +135,24 @@ for (const { input, output } of parseTestCases) {
         assertEquals(a1.bottom, output.bottom, "bottom");
         assertEquals(a1.left, output.left, "left");
         assertEquals(a1.right, output.right, "right");
+    });
+}
+
+const invalidParseTestCases: string[] = [
+    "",
+    "Sheet1!", // missing cell range
+    "!A1:B2", // missing sheet name
+    "Sheet1!A1:B2:C3", // invalid cell range
+    "Sheet1?", // invalid delimiter
+    "Sheet1!A1?B2", // invalid delimiter
+    "AAAA1:ZZZ1", // invalid cell range
+];
+
+for (const input of invalidParseTestCases) {
+    Deno.test(`A1Notation.parse(${input})`, () => {
+        assertThrows(() => {
+            A1Notation.parse(input);
+        });
     });
 }
 
