@@ -134,7 +134,8 @@ class Parser {
     const cell1 = this.parseName();
     if (this.peek() === EOF) {
       // it is `'My Custom Sheet'!A1`
-      return { sheetName, cell1 };
+      const cell2 = cell1;
+      return { sheetName, cell1, cell2 };
     }
 
     if (this.peek() !== ":") {
