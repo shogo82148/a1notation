@@ -126,6 +126,16 @@ const parseTestCases: ParseTestCase[] = [
         },
     },
     {
+        input: "Sheet1!A1",
+        output: {
+            sheetName: "Sheet1",
+            top: 1,
+            left: 1,
+            bottom: 1,
+            right: 1,
+        },
+    },
+    {
         input: "'Sheet1'!A1",
         output: {
             sheetName: "Sheet1",
@@ -159,13 +169,16 @@ const invalidParseTestCases: string[] = [
     "''!A1:B2",
 
     // invalid cell range
+    "A1:B2:C3",
     "Sheet1!A1:B2:C3",
+    "'Sheet1'!A1:B2:C3",
     "AAAA1:ZZZ1",
 
     // invalid delimiter
     "Sheet1?",
     "'Sheet1'?",
     "Sheet1!A1?B2",
+    "'Sheet1'!A1?B2",
 ];
 
 for (const input of invalidParseTestCases) {
