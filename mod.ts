@@ -263,7 +263,8 @@ function fromBase26(s: string): number {
     const code = ch.codePointAt(0);
     if (code === undefined) {
       throw new Error("invalid character");
-    } else if (charCodeA <= code && code <= charCodeZ) {
+    }
+    if (charCodeA <= code && code <= charCodeZ) {
       n = n * 26 + code - charCodeA + 1;
     } else if (charCode_a <= code && code <= charCode_z) {
       n = n * 26 + code - charCode_a + 1;
