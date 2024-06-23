@@ -46,3 +46,13 @@ jobs:
         run: |
           npm ci
           npm run test
+
+  jsr-dry-run:
+    name: "Checking if it's valid for JSR"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - run: deno publish --dry-run
