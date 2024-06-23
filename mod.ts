@@ -3,22 +3,22 @@ export class A1Notation {
   sheetName?: string;
 
   top?: number;
-  bottom?: number;
   left?: number;
+  bottom?: number;
   right?: number;
 
   constructor(
     sheetName?: string,
     top?: number,
-    bottom?: number,
     left?: number,
+    bottom?: number,
     right?: number,
   ) {
     this.sheetName = sheetName;
     this.top = top;
-    this.bottom = bottom;
-    this.left = left || top;
-    this.right = right || left;
+    this.left = left;
+    this.bottom = bottom ?? top;
+    this.right = right ?? left;
   }
 
   static parse(s: string): A1Notation {
