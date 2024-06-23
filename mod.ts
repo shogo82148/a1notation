@@ -68,6 +68,8 @@ export class A1Notation {
    *
    * @example basic usage
    * ```ts
+   * import { A1Notation } from "@shogo82148/a1notation";
+   *
    * const a1 = A1Notation.parse("Sheet1!A1:B2");
    * console.log(a1.sheetName); // "Sheet1"
    * console.log(a1.left); // 1
@@ -108,6 +110,12 @@ export class A1Notation {
    * - Single cell reference (e.g., "A1")
    * - Range reference (e.g., "A1:B2")
    * - Sheet name inclusion (e.g., "Sheet1!A1:B2")
+   *
+   * @example basic usage
+   * import { A1Notation } from "@shogo82148/a1notation";
+   *
+   * const a1 = new A1Notation("Sheet1", 3, 2);
+   * console.log(`${a1}`); // Sheet1!C2
    *
    * @returns {string} The string representation of the A1Notation object in A1 notation.
    */
