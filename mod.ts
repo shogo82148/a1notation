@@ -1,26 +1,87 @@
+/**
+ * Represents a range in A1 notation in a spreadsheet.
+ * A1 notation is a way to refer to a specific cell or range of cells in spreadsheets.
+ *
+ * @export
+ * @class A1Notation
+ */
 export class A1Notation {
-  // the name of the sheet
+  /**
+   * The name of the sheet this range belongs to. Optional.
+   *
+   * @type {?string}
+   * @memberof A1Notation
+   */
   sheetName?: string;
 
-  top?: number;
+  /**
+   * The left column number of the range. Optional.
+   *
+   * @type {?number}
+   * @memberof A1Notation
+   */
   left?: number;
-  bottom?: number;
+
+  /**
+   * The top row number of the range. Optional.
+   *
+   * @type {?number}
+   * @memberof A1Notation
+   */
+  top?: number;
+
+  /**
+   * The right column number of the range. Optional.
+   *
+   * @type {?number}
+   * @memberof A1Notation
+   */
   right?: number;
+
+  /**
+   * The bottom row number of the range. Optional.
+   *
+   * @type {?number}
+   * @memberof A1Notation
+   */
+  bottom?: number;
 
   constructor(
     sheetName?: string,
-    top?: number,
     left?: number,
-    bottom?: number,
+    top?: number,
     right?: number,
+    bottom?: number,
   ) {
     this.sheetName = sheetName;
-    this.top = top;
     this.left = left;
-    this.bottom = bottom ?? top;
+    this.top = top;
     this.right = right ?? left;
+    this.bottom = bottom ?? top;
   }
 
+  /**
+   * Parses a string in A1 notation and returns an A1Notation object.
+   * A1 notation is a way to refer to a specific cell or range of cells in spreadsheets.
+   * This method uses a Parser to interpret the string and extract components like sheet name,
+   * and cell positions. It then constructs an A1Notation object with these components.
+   *
+   * @example basic usage
+   * ```ts
+   * import { A1Notation } from "@shogo82148/a1notation";
+   *
+   * const a1 = A1Notation.parse("Sheet1!A1:B2");
+   * console.log(a1.sheetName); // "Sheet1"
+   * console.log(a1.left); // 1
+   * console.log(a1.top); // 1
+   * console.log(a1.right); // 2
+   * console.log(a1.bottom); // 2
+   * ```
+   *
+   * @static
+   * @param {string} s - The string in A1 notation to be parsed.
+   * @returns {A1Notation} An A1Notation object representing the parsed range.
+   */
   static parse(s: string): A1Notation {
     const parser = new Parser(s);
     const { sheetName, cell1, cell2 } = parser.parse();
@@ -42,6 +103,22 @@ export class A1Notation {
     return a1;
   }
 
+  /**
+   * Converts the A1Notation object to a string representation in A1 notation.
+   * This method constructs the A1 notation string for the range represented by the A1Notation object.
+   * It handles different scenarios such as:
+   * - Single cell reference (e.g., "A1")
+   * - Range reference (e.g., "A1:B2")
+   * - Sheet name inclusion (e.g., "Sheet1!A1:B2")
+   *
+   * @example basic usage
+   * import { A1Notation } from "@shogo82148/a1notation";
+   *
+   * const a1 = new A1Notation("Sheet1", 3, 2);
+   * console.log(`${a1}`); // Sheet1!C2
+   *
+   * @returns {string} The string representation of the A1Notation object in A1 notation.
+   */
   toString(): string {
     let cell1 = "";
     let cell2 = "";
@@ -246,8 +323,8 @@ class Parser {
 }
 
 interface Cell {
-  row?: number;
   col?: number;
+  row?: number;
 }
 
 function parseCell(s: string): Cell {
