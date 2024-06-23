@@ -113,11 +113,11 @@ class Parser {
     const ch = this.peek();
     if (ch === "'") {
       return this.parseSheetNameAndCell();
-    } else if (/[a-z0-9]/i.test(ch)) {
-      return this.parseCell();
-    } else {
-      throw new Error(`unexpected character: ${ch}`);
     }
+    if (/[a-z0-9]/i.test(ch)) {
+      return this.parseCell();
+    }
+    throw new Error(`unexpected character: ${ch}`);
   }
 
   parseSheetNameAndCell(): InterimResult {
@@ -152,15 +152,17 @@ class Parser {
   parseCell(): InterimResult {
     const name = this.parseName(); // name is a sheet name or cell name
     const ch = this.peek();
+
     if (ch === EOF) {
       if (reCell.test(name)) {
         // it is `A1`
         return { cell1: name, cell2: name };
-      } else {
-        // it is `Sheet1`
-        return { sheetName: name };
       }
-    } else if (ch === "!") {
+      // it is `Sheet1`
+      return { sheetName: name };
+    }
+
+    if (ch === "!") {
       this.next(); // skip "!"
 
       // name is a sheet name
@@ -171,7 +173,8 @@ class Parser {
         // it is `Sheet1!A1`
         const cell2 = cell1;
         return { sheetName, cell1, cell2 };
-      } else if (ch === ":") {
+      }
+      if (ch === ":") {
         this.next(); // skip ":"
 
         const cell2 = this.parseName();
@@ -180,10 +183,11 @@ class Parser {
         }
         // it is `Sheet1!A1:B2`
         return { sheetName, cell1, cell2 };
-      } else {
-        throw new Error(`unexpected character: ${ch}`);
       }
-    } else if (ch === ":") {
+      throw new Error(`unexpected character: ${ch}`);
+    }
+
+    if (ch === ":") {
       this.next(); // skip ":"
 
       const cell1 = name;
@@ -193,9 +197,9 @@ class Parser {
       }
       // it is `A1:B2`
       return { cell1, cell2 };
-    } else {
-      throw new Error(`expected "!" or ":", but got ${ch}`);
     }
+
+    throw new Error(`expected "!" or ":", but got ${ch}`);
   }
 
   parseQuotedName(): string {
