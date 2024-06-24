@@ -1,6 +1,51 @@
 import { assertEquals, assertThrows } from "jsr:@std/assert";
 import { A1Notation } from "./mod.ts";
 
+Deno.test("constructor: sheetName", () => {
+    const a1 = new A1Notation("Sheet1");
+    assertEquals(a1.sheetName, "Sheet1");
+    assertEquals(a1.left, undefined);
+    assertEquals(a1.top, undefined);
+    assertEquals(a1.right, undefined);
+    assertEquals(a1.bottom, undefined);
+});
+
+Deno.test("constructor: sheetName, left, top", () => {
+    const a1 = new A1Notation("Sheet1", 1, 2);
+    assertEquals(a1.sheetName, "Sheet1");
+    assertEquals(a1.left, 1);
+    assertEquals(a1.top, 2);
+    assertEquals(a1.right, 1);
+    assertEquals(a1.bottom, 2);
+});
+
+Deno.test("constructor: sheetName, left, top, right", () => {
+    const a1 = new A1Notation("Sheet1", 2, 2, 3);
+    assertEquals(a1.sheetName, "Sheet1");
+    assertEquals(a1.left, 2);
+    assertEquals(a1.top, 2);
+    assertEquals(a1.right, 3);
+    assertEquals(a1.bottom, undefined);
+});
+
+Deno.test("constructor: sheetName, left, top, bottom", () => {
+    const a1 = new A1Notation("Sheet1", 2, 2, undefined, 3);
+    assertEquals(a1.sheetName, "Sheet1");
+    assertEquals(a1.left, 2);
+    assertEquals(a1.top, 2);
+    assertEquals(a1.right, undefined);
+    assertEquals(a1.bottom, 3);
+});
+
+Deno.test("constructor: sheetName, left, top, right, bottom", () => {
+    const a1 = new A1Notation("Sheet1", 1, 2, 3, 4);
+    assertEquals(a1.sheetName, "Sheet1");
+    assertEquals(a1.left, 1);
+    assertEquals(a1.top, 2);
+    assertEquals(a1.right, 3);
+    assertEquals(a1.bottom, 4);
+});
+
 interface ParseTestCase {
     input: string;
     output: {
