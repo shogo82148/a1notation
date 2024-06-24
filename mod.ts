@@ -56,8 +56,12 @@ export class A1Notation {
     this.sheetName = sheetName;
     this.left = left;
     this.top = top;
-    this.right = right ?? left;
-    this.bottom = bottom ?? top;
+    this.right = right;
+    this.bottom = bottom;
+    if (right === undefined && bottom === undefined) {
+      this.right = left;
+      this.bottom = top;
+    }
   }
 
   /**
