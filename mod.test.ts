@@ -46,6 +46,31 @@ Deno.test("constructor: sheetName, left, top, right, bottom", () => {
     assertEquals(a1.bottom, 4);
 });
 
+Deno.test("constructor: invalid parameter", () => {
+    assertThrows(() => {
+        // sheetName must not be an empty string
+        new A1Notation("");
+    });
+    assertThrows(() => {
+        new A1Notation(undefined, 0);
+    });
+    assertThrows(() => {
+        new A1Notation(undefined, 1, 0);
+    });
+    assertThrows(() => {
+        new A1Notation(undefined, 1, 1, 0);
+    });
+    assertThrows(() => {
+        new A1Notation(undefined, 1, 1, 1, 0);
+    });
+    assertThrows(() => {
+        new A1Notation(undefined, 2, undefined, 1);
+    });
+    assertThrows(() => {
+        new A1Notation(undefined, undefined, 2, undefined, 1);
+    });
+});
+
 interface ParseTestCase {
     input: string;
     output: {

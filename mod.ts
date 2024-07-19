@@ -53,15 +53,37 @@ export class A1Notation {
     right?: number,
     bottom?: number,
   ) {
+    if (sheetName === "") {
+      throw new Error("sheetName must not be an empty string");
+    }
+    if (left !== undefined && left <= 0) {
+      throw new Error("left must be greater than 0");
+    }
+    if (top !== undefined && top <= 0) {
+      throw new Error("top must be greater than 0");
+    }
+    if (right !== undefined && right <= 0) {
+      throw new Error("right must be greater than 0");
+    }
+    if (bottom !== undefined && bottom <= 0) {
+      throw new Error("bottom must be greater than 0");
+    }
+    if (right === undefined && bottom === undefined) {
+      right = left;
+      bottom = top;
+    }
+    if (top !== undefined && bottom !== undefined && top > bottom) {
+      throw new Error("top must be less than or equal to bottom");
+    }
+    if (left !== undefined && right !== undefined && left > right) {
+      throw new Error("left must be less than or equal to right");
+    }
+
     this.sheetName = sheetName;
     this.left = left;
     this.top = top;
     this.right = right;
     this.bottom = bottom;
-    if (right === undefined && bottom === undefined) {
-      this.right = left;
-      this.bottom = top;
-    }
   }
 
   /**
