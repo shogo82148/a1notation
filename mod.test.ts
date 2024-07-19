@@ -357,12 +357,13 @@ const toStringTestCases: ToStringTestCase[] = [
 
 for (const { input, output } of toStringTestCases) {
     Deno.test(`A1Notation.toString(${JSON.stringify(input)})`, () => {
-        const a1 = new A1Notation();
-        a1.sheetName = input.sheetName;
-        a1.top = input.top;
-        a1.bottom = input.bottom;
-        a1.left = input.left;
-        a1.right = input.right;
+        const a1 = new A1Notation(
+            input.sheetName,
+            input.left,
+            input.top,
+            input.right,
+            input.bottom,
+        );
         assertEquals(`${a1}`, output);
     });
 }
