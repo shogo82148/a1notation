@@ -12,7 +12,7 @@ export class A1Notation {
    * @type {?string}
    * @memberof A1Notation
    */
-  sheetName?: string;
+  readonly sheetName?: string;
 
   /**
    * The left column number of the range. Optional.
@@ -20,7 +20,7 @@ export class A1Notation {
    * @type {?number}
    * @memberof A1Notation
    */
-  left?: number;
+  readonly left?: number;
 
   /**
    * The top row number of the range. Optional.
@@ -28,7 +28,7 @@ export class A1Notation {
    * @type {?number}
    * @memberof A1Notation
    */
-  top?: number;
+  readonly top?: number;
 
   /**
    * The right column number of the range. Optional.
@@ -36,7 +36,7 @@ export class A1Notation {
    * @type {?number}
    * @memberof A1Notation
    */
-  right?: number;
+  readonly right?: number;
 
   /**
    * The bottom row number of the range. Optional.
@@ -44,7 +44,7 @@ export class A1Notation {
    * @type {?number}
    * @memberof A1Notation
    */
-  bottom?: number;
+  readonly bottom?: number;
 
   constructor(
     sheetName?: string,
@@ -89,22 +89,22 @@ export class A1Notation {
   static parse(s: string): A1Notation {
     const parser = new Parser(s);
     const { sheetName, cell1, cell2 } = parser.parse();
+    let left: number | undefined;
+    let top: number | undefined;
+    let right: number | undefined;
+    let bottom: number | undefined;
 
-    const a1 = new A1Notation();
-    if (sheetName) {
-      a1.sheetName = sheetName;
-    }
     if (cell1) {
       const { row, col } = parseCell(cell1);
-      a1.top = row;
-      a1.left = col;
+      top = row;
+      left = col;
     }
     if (cell2) {
       const { row, col } = parseCell(cell2);
-      a1.bottom = row;
-      a1.right = col;
+      bottom = row;
+      right = col;
     }
-    return a1;
+    return new A1Notation(sheetName, left, top, right, bottom);
   }
 
   /**
