@@ -69,6 +69,22 @@ Deno.test("constructor: invalid parameter", () => {
   assertThrows(() => {
     new A1Notation(undefined, undefined, 2, undefined, 1);
   });
+  assertThrows(() => {
+    // left must be an integer
+    new A1Notation(undefined, 1.5);
+  });
+  assertThrows(() => {
+    // top must be an integer
+    new A1Notation(undefined, 1, 1.5);
+  });
+  assertThrows(() => {
+    // right must be an integer
+    new A1Notation(undefined, 1, 1, 1.5);
+  });
+  assertThrows(() => {
+    // bottom must be an integer
+    new A1Notation(undefined, 1, 1, 1, 1.5);
+  });
 });
 
 interface ParseTestCase {
