@@ -1,4 +1,4 @@
-import { assertEquals, assertThrows } from "jsr:@std/assert";
+import { assertEquals, assertThrows } from "@std/assert";
 import { A1Notation } from "./mod.ts";
 
 Deno.test("constructor: sheetName", () => {
