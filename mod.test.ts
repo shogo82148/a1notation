@@ -215,6 +215,15 @@ const parseTestCases: ParseTestCase[] = [
       right: 1,
     },
   },
+  {
+    // sheet name containing an escaped single quote
+    input: "'O''Brien'!A:A",
+    output: {
+      sheetName: "O'Brien",
+      left: 1,
+      right: 1,
+    },
+  },
 ];
 
 for (const { input, output } of parseTestCases) {
@@ -377,6 +386,15 @@ const toStringTestCases: ToStringTestCase[] = [
       sheetName: "A",
     },
     output: "A",
+  },
+  {
+    // sheet name containing a single quote must be escaped as ''
+    input: {
+      sheetName: "O'Brien",
+      left: 1,
+      right: 1,
+    },
+    output: "'O''Brien'!A:A",
   },
 ];
 

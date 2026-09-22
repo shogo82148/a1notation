@@ -7,7 +7,7 @@ Notation.
 
 ## Usage
 
-## Parsing A1 Notation
+### Parsing A1 Notation
 
 ```typescript
 import { A1Notation } from "@shogo82148/a1notation";
@@ -20,7 +20,7 @@ console.log(a1.right); // 2
 console.log(a1.bottom); // 2
 ```
 
-## Generating A1 Notation
+### Generating A1 Notation
 
 ```typescript
 import { A1Notation } from "@shogo82148/a1notation";
