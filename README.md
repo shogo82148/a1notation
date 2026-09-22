@@ -1,9 +1,7 @@
 # a1notation
 
-This library is designed to parse A1 Notation, commonly used in spreadsheets
-like Excel and Google Sheets, and convert it to row and column indices. It also
-allows for the reverse operation, converting row and column indices back to A1
-Notation.
+A TypeScript library for parsing and generating A1 notation (e.g.
+`Sheet1!A1:B2`) used in spreadsheets like Excel and Google Sheets.
 
 ## Usage
 
