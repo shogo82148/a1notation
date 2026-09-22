@@ -1,6 +1,6 @@
 {
   "name": "@shogo82148/a1notation",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A TypeScript library for parsing and generating A1 notation (e.g. Sheet1!A1:B2) used in spreadsheets like Excel and Google Sheets.",
   "exports": {
     ".": "./mod.ts"
