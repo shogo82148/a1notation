@@ -18,7 +18,8 @@ await build({
     // package.json properties
     name: "@shogo82148/a1notation",
     version: Deno.args[0],
-    description: "Limit the concurrency of tasks.",
+    description:
+      "A TypeScript library for parsing and generating A1 notation (e.g. Sheet1!A1:B2) used in spreadsheets like Excel and Google Sheets.",
     license: "MIT",
     repository: {
       type: "git",
