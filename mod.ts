@@ -69,14 +69,26 @@ export class A1Notation {
     if (sheetName === "") {
       throw new Error("sheetName must not be an empty string");
     }
+    if (left !== undefined && !Number.isInteger(left)) {
+      throw new Error("left must be an integer");
+    }
     if (left !== undefined && left <= 0) {
       throw new Error("left must be greater than 0");
+    }
+    if (top !== undefined && !Number.isInteger(top)) {
+      throw new Error("top must be an integer");
     }
     if (top !== undefined && top <= 0) {
       throw new Error("top must be greater than 0");
     }
+    if (right !== undefined && !Number.isInteger(right)) {
+      throw new Error("right must be an integer");
+    }
     if (right !== undefined && right <= 0) {
       throw new Error("right must be greater than 0");
+    }
+    if (bottom !== undefined && !Number.isInteger(bottom)) {
+      throw new Error("bottom must be an integer");
     }
     if (bottom !== undefined && bottom <= 0) {
       throw new Error("bottom must be greater than 0");
