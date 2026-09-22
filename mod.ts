@@ -46,6 +46,19 @@ export class A1Notation {
    */
   readonly bottom?: number;
 
+  /**
+   * Creates an instance of A1Notation.
+   * If only `left`/`top` are given, `right`/`bottom` default to the same values,
+   * representing a single cell.
+   *
+   * @param {string} [sheetName] The name of the sheet this range belongs to.
+   * @param {number} [left] The left column number of the range.
+   * @param {number} [top] The top row number of the range.
+   * @param {number} [right] The right column number of the range.
+   * @param {number} [bottom] The bottom row number of the range.
+   * @throws {Error} If any of the constraints on the arguments are violated.
+   * @memberof A1Notation
+   */
   constructor(
     sheetName?: string,
     left?: number,
