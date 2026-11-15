@@ -263,6 +263,12 @@ const invalidParseTestCases: string[] = [
   "!A1:B2",
   "''!A1:B2",
 
+  // unterminated quoted sheet name
+  "'",
+  "'Sheet1",
+  "'Sheet1!A1",
+  "'Sheet1''",
+
   // invalid cell range
   "A1:B2:C3",
   "Sheet1!A1:B2:C3",

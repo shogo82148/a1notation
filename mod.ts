@@ -341,6 +341,9 @@ class Parser {
     let name = "";
     for (;;) {
       const ch = this.peek();
+      if (ch === EOF) {
+        throw new Error("unterminated quoted sheet name");
+      }
       if (ch === "'") {
         this.next();
         if (this.peek() !== "'") {
